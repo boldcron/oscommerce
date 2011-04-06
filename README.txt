@@ -15,9 +15,13 @@ Onde, /catalog é o caminho raiz de sua instalação do OsCommerce. Também deve
 
 /catalog/includes/languages/english/modules/payment/cobredireto_payment.php
 
-Note que, o módulo foi escrito para aparecer na instalação padrão do OsCommerce mesmo que escrito em português brasileiro. Caso você tenha a instalação de sua loja em outra língua, basta trocar o caminho em "english" para "português" ou a língua desejada.
+Note que, o módulo foi escrito para aparecer na instalação padrão do OsCommerce mesmo que escrito em português 
+brasileiro. Caso você tenha a instalação de sua loja em outra língua, basta trocar o caminho em "english" para 
+"português" ou a língua desejada.
 
-Feito isso, o módulo de pagamento aparecerá na administração do sistema. Vá à opção "Modules > Payment" e instale o módulo "Cobre Direto". Agora, edite as configurações com seu usuário e senha de sua conta CobreDireto. O cálculo do frete se dará com base no cálculo do próprio CobreDireto.
+Feito isso, o módulo de pagamento aparecerá na administração do sistema. Vá à opção "Modules > Payment" e instale 
+o módulo "Cobre Direto". Agora, edite as configurações com seu usuário e senha de sua conta CobreDireto. 
+O cálculo do frete se dará com base no cálculo do próprio CobreDireto.
 
 
 --

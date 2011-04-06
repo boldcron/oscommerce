@@ -72,10 +72,10 @@
       * @access private
       **/
     protected function configuraCobreDireto(){
-      $file=dirname(__FILE__).'/CD_config.php';
-      if (!file_exists($file))
-        die('<h1>Arquivo de configura&ccedil;&atilde;o n&atilde;o encontrado</h1>');
-      require_once($file);
+      #$file=dirname(__FILE__).'/CD_config.php';
+      #if (!file_exists($file))
+      #  die('<h1>Arquivo de configura&ccedil;&atilde;o n&atilde;o encontrado</h1>');
+      #require_once($file);
 
       if (!defined('CD_CODLOJA'))
         die('<h1>C&oacute;digo da loja n&atilde;o definido</h1>');
@@ -437,6 +437,14 @@
         $phone_home   = $this->request->createElement('phone_home');
         $area_cod     = $this->request->createElement('area_code',    $dados['tel_casa']['area']);
         $phone_number = $this->request->createElement('phone_number', $dados['tel_casa']['numero']);
+                  
+        $address_street     = $this->request->createElement('address_street',     $dados['rua']);
+        $address_street_nr  = $this->request->createElement('address_street_nr',  $dados['numero']);
+        $address_comunity   = $this->request->createElement('address_comunity',   $dados['bairro']);
+        $address_state      = $this->request->createElement('address_state',      $dados['estado']);
+        $address_city       = $this->request->createElement('address_city',       $dados['cidade']);
+        $address_country    = $this->request->createElement('address_country',    $dados['pais']);
+
         $phone_home->appendChild($area_cod);
         $phone_home->appendChild($phone_number);
         $address_zip  = $this->request->createElement('address_zip',  $dados['cep']);

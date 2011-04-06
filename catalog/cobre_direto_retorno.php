@@ -29,7 +29,7 @@ function captura($cod_pedido, $status) {
     tep_db_query('
       update '.TABLE_ORDERS.'
         set orders_status = 2, last_modified = now() 
-        where orders_id = '.(int) $order_id
+        where orders_id = '.(int) $cod_pedido
     );
   }
 }

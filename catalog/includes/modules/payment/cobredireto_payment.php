@@ -7,26 +7,26 @@ class cobredireto_payment {
   var $public_title 							= MODULE_PAYMENT_COBREDIRETO_TEXT_PUBLIC_TITLE;
   var $description  							= MODULE_PAYMENT_COBREDIRETO_TEXT_DESCRIPTION;
   var $sort_order   							= MODULE_PAYMENT_COBREDIRETO_SORT_ORDER;
-  var $enabled     							= MODULE_PAYMENT_COBREDIRETO_STATUS;
+  var $enabled     							    = MODULE_PAYMENT_COBREDIRETO_STATUS;
   var $ambiente     							= MODULE_PAYMENT_COBREDIRETO_AMBIENTE;
   var $loja         							= MODULE_PAYMENT_COBREDIRETO_LOJA;
-  var $usuario     							= MODULE_PAYMENT_COBREDIRETO_USUARIO;
+  var $usuario       							= MODULE_PAYMENT_COBREDIRETO_USUARIO;
   var $senha        							= MODULE_PAYMENT_COBREDIRETO_SENHA;  
-  var $habilita_visa_credito     					= MODULE_PAYMENT_COBREDIRETO_VISA_CREDITO;
-  var $habilita_master_credito      					= MODULE_PAYMENT_COBREDIRETO_MASTER_CREDITO;
-  var $habilita_diners_credito		        			= MODULE_PAYMENT_COBREDIRETO_DINER_CREDITO;
-  var $habilita_amex_credito						= MODULE_PAYMENT_COBREDIRETO_AMEX_CREDITO;  
-  var $habilita_bradesco_debito     					= MODULE_PAYMENT_COBREDIRETO_BRADESCO_DEBITO;
-  var $habilita_itau_debito 			        		= MODULE_PAYMENT_COBREDIRETO_ITAU_DEBITO;
-  var $habilita_banco_brasil_debito     				= MODULE_PAYMENT_COBREDIRETO_BANCO_BRASIL_DEBITO;
-  var $habilita_unibanco_debito     					= MODULE_PAYMENT_COBREDIRETO_UNIBANCO_DEBITO;
-  var $habilita_real_debito     					= MODULE_PAYMENT_COBREDIRETO_REAL_DEBITO;
-  var $habilita_banrisul_debito     					= MODULE_PAYMENT_COBREDIRETO_BANRISUL_DEBITO;
-  var $habilita_bradesco_boleto     					= MODULE_PAYMENT_COBREDIRETO_BRADESCO_BOLETO;
-  var $habilita_itau_boleto     					= MODULE_PAYMENT_COBREDIRETO_ITAU_BOLETO;
-  var $habilita_banco_brasil_boleto 					= MODULE_PAYMENT_COBREDIRETO_BANCO_BRASIL_BOLETO;
-  var $habilita_unibanco_boleto     					= MODULE_PAYMENT_COBREDIRETO_UNIBANCO_BOLETO;
-  var $habilita_real_boleto     					= MODULE_PAYMENT_COBREDIRETO_REAL_BOLETO;
+  var $habilita_visa_credito     				= MODULE_PAYMENT_COBREDIRETO_VISA_CREDITO;
+  var $habilita_master_credito      			= MODULE_PAYMENT_COBREDIRETO_MASTER_CREDITO;
+  var $habilita_diners_credito		        	= MODULE_PAYMENT_COBREDIRETO_DINER_CREDITO;
+  var $habilita_amex_credito					= MODULE_PAYMENT_COBREDIRETO_AMEX_CREDITO;  
+  var $habilita_bradesco_debito     			= MODULE_PAYMENT_COBREDIRETO_BRADESCO_DEBITO;
+  var $habilita_itau_debito 			        = MODULE_PAYMENT_COBREDIRETO_ITAU_DEBITO;
+  var $habilita_banco_brasil_debito     		= MODULE_PAYMENT_COBREDIRETO_BANCO_BRASIL_DEBITO;
+  var $habilita_unibanco_debito     			= MODULE_PAYMENT_COBREDIRETO_UNIBANCO_DEBITO;
+  var $habilita_real_debito     				= MODULE_PAYMENT_COBREDIRETO_REAL_DEBITO;
+  var $habilita_banrisul_debito     			= MODULE_PAYMENT_COBREDIRETO_BANRISUL_DEBITO;
+  var $habilita_bradesco_boleto     			= MODULE_PAYMENT_COBREDIRETO_BRADESCO_BOLETO;
+  var $habilita_itau_boleto     				= MODULE_PAYMENT_COBREDIRETO_ITAU_BOLETO;
+  var $habilita_banco_brasil_boleto 			= MODULE_PAYMENT_COBREDIRETO_BANCO_BRASIL_BOLETO;
+  var $habilita_unibanco_boleto     			= MODULE_PAYMENT_COBREDIRETO_UNIBANCO_BOLETO;
+  var $habilita_real_boleto     				= MODULE_PAYMENT_COBREDIRETO_REAL_BOLETO;
 
   // class constructor
   function cobredireto() {
@@ -171,20 +171,41 @@ class cobredireto_payment {
     foreach (array ('customer'=>'CONSUMIDOR', 'billing'=>'COBRANCA', 'delivery'=>'ENTREGA') as $k=>$v) {
       $telefone = preg_replace('@[^\d]@', '', $order->customer['telephone']);
       $telefone = str_pad($telefone, 10, "0", STR_PAD_LEFT);
+
+      $customer=$order->$k;
+      $address=explode(',',$customer['street_address']);      
+      
       $dados = array(
-          'primeiro_nome' => $order->$k['firstname'],
-          'ultimo_nome' => $order->$k['lastname'],
-          'email' => $order->customer['email_address'],
-          'tel_casa' => array(
-            'area' => substr($telefone, 0, -8),
-            'numero' => substr($telefone, -8),
-            ),
-          'cep' => $order->$k['postcode'],
+          'primeiro_nome' => $customer['firstname'],
+          'ultimo_nome'   => $customer['lastname'],
+          'email'         => $order->customer['email_address'],
+          'tel_casa'      => array(
+              'area'    => substr($telefone, 0, -8),
+              'numero'  => substr($telefone, -8),
+           ),
+          'cep'     => $customer['postcode'],
+          'rua'     => $address[0],
+          'numero'  => $address[1],
+          'bairro'  => $customer['suburb'],
+          'estado'  => $customer['state'],
+          'cidade'  => $customer['city'],
+          'pais'    => $customer['country']['iso_code_2'],
           );
       $pg->endereco($dados, $v);
     }
   }
 
+function cd_set_config ()
+{
+    define('CD_AMBIENTE'    , $this->ambiente);
+    define('CD_CODLOJA'     , $this->loja); 
+    define('CD_USUARIO'     , $this->usuario);
+    define('CD_SENHA'       , $this->senha);
+    define('CD_URL_RETORNO' , $base_url."cobre_direto_retorno.php");
+    define('CD_URL_RECIBO'  , $base_url."cobre_direto_recibo.php");
+    define('CD_URL_ERRO'    , $base_url."cobre_direto_recibo.php");
+}
+    
   function _get_cobre_direto_class() {
     if (class_exists('CobreDireto')) return;
   }
@@ -193,6 +214,7 @@ class cobredireto_payment {
 	global $HTTP_POST_VARS, $order;
 	    $this->_get_cobre_direto_class();
 	    $base_url = HTTP_SERVER . DIR_WS_CATALOG;
+	    $this->cd_set_config($base_url);
 	    $produtos = $this->_configura_produtos($order);
 	    $pg = new Pg($insert_id);
 	    $pg->set_usuario($this->usuario);
