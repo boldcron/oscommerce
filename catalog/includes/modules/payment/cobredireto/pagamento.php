@@ -456,6 +456,13 @@
         $this->$v->appendChild($document   );
         $this->$v->appendChild($phone_home );
         $this->$v->appendChild($address_zip);
+        
+        $this->$v->appendChild($address_street);
+        $this->$v->appendChild($address_street_nr);
+        $this->$v->appendChild($address_comunity);
+        $this->$v->appendChild($address_state);
+        $this->$v->appendChild($address_city);
+        $this->$v->appendChild($address_country);
       }
     }
     
