@@ -173,7 +173,10 @@ class cobredireto_payment {
       $telefone = str_pad($telefone, 10, "0", STR_PAD_LEFT);
 
       $customer=$order->$k;
-      $address=explode(',',$customer['street_address']);      
+      
+      $street=explode(',',$customer['street_address']);            
+      $street = array_slice(array_merge($street, array("","","")),0,3); 
+      list($rua, $numero, $complemento) = $street;      
       
       $dados = array(
           'primeiro_nome' => $customer['firstname'],
@@ -183,13 +186,14 @@ class cobredireto_payment {
               'area'    => substr($telefone, 0, -8),
               'numero'  => substr($telefone, -8),
            ),
-          'cep'     => $customer['postcode'],
-          'rua'     => $address[0],
-          'numero'  => $address[1],
-          'bairro'  => $customer['suburb'],
-          'estado'  => $customer['state'],
-          'cidade'  => $customer['city'],
-          'pais'    => $customer['country']['iso_code_2'],
+          'cep'           => $customer['postcode'],
+          'rua'           => $rua,
+          'numero'        => $numero,
+          'complemento'   => $complemento,
+          'bairro'        => $customer['suburb'],
+          'estado'        => $customer['state'],
+          'cidade'        => $customer['city'],
+          'pais'          => $customer['country']['iso_code_2'],
           );
       $pg->endereco($dados, $v);
     }
